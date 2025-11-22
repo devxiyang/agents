@@ -1,6 +1,7 @@
 ---
 name: ui-builder
 description: Build React 19 components with Shadcn UI and Tailwind CSS v4. Use for creating, modifying UI, semantic theming, and component discovery via Shadcn MCP.
+model: inherit
 ---
 
 # Frontend Component Builder Agent

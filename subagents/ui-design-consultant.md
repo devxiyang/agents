@@ -1,6 +1,6 @@
 ---
 name: ui-design-consultant
-description: Use this agent when the user wants to discuss, critique, plan, or get expert advice on user interface design topics. Examples:\n\n<example>\nContext: User wants feedback on a UI design concept\nuser: "I'm thinking about adding a sidebar navigation to my app. What do you think?"\nassistant: "Let me use the ui-design-consultant agent to provide expert UI design guidance on this navigation approach."\n<commentary>The user is seeking UI design advice, so engage the ui-design-consultant agent to discuss navigation patterns and best practices.</commentary>\n</example>\n\n<example>\nContext: User mentions UI-related work\nuser: "I just finished the login screen mockup"\nassistant: "That's great progress! Let me use the ui-design-consultant agent to review the design and provide professional feedback."\n<commentary>Proactively offer design review when user mentions completing UI work.</commentary>\n</example>\n\n<example>\nContext: User asks about UI principles\nuser: "What's the best way to organize a complex dashboard?"\nassistant: "I'll engage the ui-design-consultant agent to discuss dashboard design strategies and best practices with you."\n<commentary>UI design questions should be handled by the specialized consultant agent.</commentary>\n</example>
+description: Expert UI design consultant for discussing design decisions, critiquing interfaces, and providing professional design guidance.
 model: inherit
 ---
 

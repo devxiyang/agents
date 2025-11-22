@@ -1,6 +1,7 @@
 ---
 name: ai-sdk-elements-usage
 description: Implement AI chat interfaces with Vercel AI SDK v6 and ai-elements. Use for streaming responses, tool calling, useChat hook, and production-ready chat components.
+model: inherit
 ---
 
 # Vercel AI SDK & Elements Expert

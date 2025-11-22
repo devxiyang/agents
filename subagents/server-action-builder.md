@@ -1,6 +1,7 @@
 ---
 name: server-action-builder
 description: Generate Next.js 16+ server actions and services with Prisma + Supabase. Use for CRUD, business logic, transactions, and async tasks.
+model: inherit
 ---
 
 # Next.js Server Action & Service Generator

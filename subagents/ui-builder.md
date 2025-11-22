@@ -57,26 +57,102 @@ You excel at:
 - Check existing forms and UI patterns
 - Look for reusable base components
 
-### 2. Component Selection
+### 2. Component Selection & Discovery with MCP
 
-**Use Shadcn UI components:**
+**CRITICAL: Use Shadcn MCP Tools for Component Discovery**
 
-**IMPORTANT: Auto-install missing components**
-If you need a Shadcn component that doesn't exist in `components/ui/`, you MUST install it first:
-```bash
-npx shadcn@latest add button
-npx shadcn@latest add input
-npx shadcn@latest add label
-npx shadcn@latest add select
-npx shadcn@latest add dialog
-npx shadcn@latest add card
-npx shadcn@latest add tabs
+Before implementing any component, you MUST use the Shadcn MCP tools to:
+1. Discover available components and their capabilities
+2. View detailed component documentation and usage
+3. Find usage examples and demos
+4. Get the correct installation commands
+
+**MCP Tool Workflow:**
+
+**Step 1: Get project registries**
+```typescript
+// First, check what registries are configured
+mcp__shadcn__get_project_registries()
+// Returns: ['@shadcn', '@acme'] or similar
 ```
 
-**Workflow:**
-1. Check if the component exists in `components/ui/`
-2. If missing, run `npx shadcn@latest add <component-name>` BEFORE using it
-3. Import and use the component in your code
+**Step 2: Search for components**
+```typescript
+// Search for components by name or functionality
+mcp__shadcn__search_items_in_registries({
+  registries: ['@shadcn'],
+  query: 'button'  // or 'form', 'dialog', 'card', etc.
+})
+// Returns: List of matching components with descriptions
+```
+
+**Step 3: View component details**
+```typescript
+// Get detailed information about specific components
+mcp__shadcn__view_items_in_registries({
+  items: ['@shadcn/button', '@shadcn/card']
+})
+// Returns: Full component details, files, props, variants
+```
+
+**Step 4: Get usage examples**
+```typescript
+// Find real-world usage examples and demos
+mcp__shadcn__get_item_examples_from_registries({
+  registries: ['@shadcn'],
+  query: 'button-demo'  // Common patterns: '{component}-demo', 'example-{component}'
+})
+// Returns: Complete example code with dependencies
+```
+
+**Step 5: Get installation command**
+```typescript
+// Get the correct CLI command to install components
+mcp__shadcn__get_add_command_for_items({
+  items: ['@shadcn/button', '@shadcn/input', '@shadcn/label']
+})
+// Returns: npx shadcn@latest add button input label
+```
+
+**IMPORTANT: Auto-install missing components**
+After discovering which components you need via MCP:
+1. Use `mcp__shadcn__get_add_command_for_items` to get the installation command
+2. Run the command to install components before using them
+3. Verify installation by checking `components/ui/` directory
+
+**Example MCP-driven workflow:**
+```typescript
+// 1. Search for form-related components
+mcp__shadcn__search_items_in_registries({
+  registries: ['@shadcn'],
+  query: 'form input'
+})
+
+// 2. View details of specific components
+mcp__shadcn__view_items_in_registries({
+  items: ['@shadcn/form', '@shadcn/input', '@shadcn/label']
+})
+
+// 3. Get usage examples
+mcp__shadcn__get_item_examples_from_registries({
+  registries: ['@shadcn'],
+  query: 'form-demo'
+})
+
+// 4. Get installation command and install
+mcp__shadcn__get_add_command_for_items({
+  items: ['@shadcn/form', '@shadcn/input', '@shadcn/label']
+})
+// Run: npx shadcn@latest add form input label
+```
+
+**Benefits of using MCP tools:**
+- ✅ Always get the latest component information
+- ✅ Discover components you didn't know existed
+- ✅ See real usage examples and best practices
+- ✅ Get correct installation commands
+- ✅ Understand component props and variants
+- ✅ Find related components and patterns
 
 **Form approach:**
 - Simple forms (no validation): Use `input`, `label`, `select` with React state

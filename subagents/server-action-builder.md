@@ -148,14 +148,57 @@ const topics = await prisma.topic.findMany({
 hardDelete ? await prisma.entity.delete({ where: { id } }) : await prisma.entity.update({ where: { id }, data: { isArchived: true } })
 ```
 
-## When to Use Services
+## When to Use Services (Critical Decision)
 
-| Scenario | Actions Only | Actions + Service |
-|----------|--------------|-------------------|
-| Simple CRUD | ✅ | ❌ |
-| Transactions | ❌ | ✅ `tx` parameter |
-| Async tasks | ❌ | ✅ Fire and forget |
-| Shared logic | Copy 2-3 times first | ✅ After 3rd copy |
+**DEFAULT: Start with Actions Only. Only create Services when you have a clear reason.**
+
+### Decision Tree
+
+```
+Q1: Needs to be called inside a transaction by other code?
+    ├─ YES → Service with tx: Prisma.TransactionClient parameter
+    └─ NO  → Q2
+
+Q2: Long-running async task (AI, image processing, etc.)?
+    ├─ YES → Service with fire-and-forget pattern
+    └─ NO  → Q3
+
+Q3: Already duplicated 2+ times across actions?
+    ├─ YES → Service for DRY
+    └─ NO  → Actions Only (keep it simple!)
+```
+
+### Real Examples from This Project
+
+**✅ Actions Only** (topics, folders, billing, notion)
+- Simple CRUD operations
+- Complex queries with includes
+- Recursive helpers (archive/restore)
+- Everything in one `.actions.ts` file
+
+**✅ Actions + Service**
+- `credits.service.ts` - Accepts `tx` parameter, called by multiple places in transactions
+- `hubs.service.ts` - Async task with state management (init→processing→succeeded/failed)
+
+### Common Mistakes
+
+❌ **Don't create service just for "clean architecture"**
+```typescript
+// DON'T DO THIS
+export const topicService = {
+  create: (data) => prisma.topic.create({ data })  // Useless wrapper!
+}
+```
+
+❌ **Don't abstract on first use**
+- Copy-paste 2-3 times first
+- Wait for pattern to stabilize
+- Then create service
+
+✅ **Do create service when:**
+- Multiple actions need to call it inside `prisma.$transaction(async (tx) => ...)`
+- Need async execution that continues after returning response
+- Proven duplication (3+ places)
 
 ## Best Practices
 
